@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>파주시 긴급 대피 경로</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.9.0/proj4.js"></script>
+  <script src="https://unpkg.com/@turf/turf@6.5.0/turf.min.js"></script>
+  
+  <link rel="stylesheet" href="style.css" />
+  <script src="safeRoute.js" defer></script>
+</head>
+
+<body>
+  <div id="map"></div>
+
+  <div id="rainGauge" class="rain-gauge gauge-normal">
+    <span class="rain-value" id="rainValue">--</span>
+    <span class="rain-label" id="rainLabel">기상 확인중</span>
+  </div>
+
+  <div class="panel">
+    <div class="title">파주시 긴급 대피 경로</div>
+    <div class="subtitle">※ 경기데이터드림 침수흔적 데이터 기반</div>
+
+    <div class="legend-grid">
+      <div class="legend-item"><span class="dot blue"></span>운영중 대피소</div>
+      <div class="legend-item"><span class="dot grey"></span>침수/폐쇄 대피소</div>
+      <div class="legend-item"><span class="dot red pulse-dot"></span>침수 위험 구역</div>
+      <div class="legend-item" style="font-weight:600;color:#666;background:#fff;border:1px solid #eee;">
+        지도 클릭 → 내 위치
+      </div>
+    </div>
+
+    <div class="input-group">
+      <input type="number" id="rainInput" placeholder="강수량(mm/h)" min="0" max="300">
+      <button id="btnRun">시뮬레이션 실행</button>
+    </div>
+    
+    <button id="btnReset" class="reset-btn">🔄 실시간 모드로 초기화</button>
+    <button id="btnRecenter" style="margin-top:8px;">파주시 중심으로 이동</button>
+
+    <div id="apiStatus">시스템 초기화 중...</div>
+  </div>
+
+  <div class="data-source-badge">
+    DATA: 경기데이터드림 | 기상청 Open-Meteo | 파주시청
+  </div>
+</body>
+</html>

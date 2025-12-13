@@ -1,0 +1,118 @@
+html, body { height: 100%; margin: 0; font-family: -apple-system, system-ui, sans-serif; }
+#map { height: 100%; width: 100%; background: #f0f0f0; }
+
+/* 좌측 컨트롤 패널 */
+.panel {
+  position: absolute; top: 16px; left: 16px; z-index: 1000;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 16px; padding: 18px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  max-width: 360px; width: calc(100% - 32px);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+.title { font-weight: 900; font-size: 16px; margin: 0 0 6px 0; }
+.subtitle { font-size: 12px; color: #666; margin: 0 0 10px 0; }
+
+/* 우측 강수량 패널 */
+.rain-gauge {
+  position: absolute; top: 16px; right: 16px; z-index: 1000;
+  background: rgba(0, 70, 150, 0.9);
+  color: white;
+  border-radius: 12px; padding: 12px 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  text-align: center;
+  min-width: 110px;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+.rain-value { font-size: 22px; font-weight: 800; display: block; }
+.rain-label { font-size: 11px; opacity: 0.9; margin-top: 4px; display: block; }
+
+/* 강수량 상태별 색상 */
+.gauge-normal { background: rgba(0, 150, 100, 0.9); }
+.gauge-heavy { background: rgba(230, 81, 0, 0.9); }
+.gauge-extreme { background: rgba(183, 28, 28, 0.95); animation: pulse-bg 2s infinite; }
+
+/* 범례 아이템 */
+.legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0 12px; }
+.legend-item { display: flex; align-items: center; font-size: 12px; font-weight: 700; color: #444;
+  background: #f8f9fa; padding: 6px 10px; border-radius: 10px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; }
+.dot.red { background: rgba(255, 0, 0, 0.6); border: 1px solid red; }
+.dot.blue { background: #2b7cff; border: 1px solid #005bbb; }
+.dot.grey { background: #999; border: 1px solid #666; }
+
+/* [NEW] 범례의 빨간 점도 깜빡이게 하여 경각심 부여 */
+.pulse-dot { animation: pulse-dot 1.5s infinite; }
+
+/* 상태 메시지 */
+#apiStatus {
+  font-size: 11px; color: #666; margin-top: 10px;
+  padding: 8px; background: #f1f1f1; border-radius: 8px;
+  word-break: break-all; line-height: 1.35;
+}
+
+/* 입력창 및 버튼 */
+.input-group { display: flex; gap: 8px; margin-top: 8px; margin-bottom: 8px; }
+
+input[type="number"] {
+  flex: 1; padding: 10px;
+  border: 1px solid #ddd; border-radius: 10px;
+  font-size: 13px; outline: none; transition: border 0.2s;
+}
+input[type="number"]:focus { border-color: #2b7cff; }
+
+button {
+  width: 100%; padding: 10px;
+  border: 1px solid #ddd; background: white;
+  border-radius: 10px; font-weight: 800; cursor: pointer;
+  font-size: 12px; transition: all 0.2s;
+}
+button:hover { background: #f5f5f5; }
+
+#btnRun { flex: 1; background: #2b7cff; color: white; border: none; }
+#btnRun:hover { background: #0066ff; }
+.reset-btn { margin-top: 5px; color: #555; }
+
+/* [NEW] 데이터 출처 배지 스타일 */
+.data-source-badge {
+    position: absolute; bottom: 10px; right: 10px; z-index: 1000;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 6px 12px; border-radius: 20px;
+    font-size: 11px; color: #555; font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    pointer-events: none;
+}
+
+/* 로딩 커서 */
+body.loading { cursor: wait; }
+
+/* 침수 대피소 툴팁 */
+.flooded-tooltip {
+    background-color: #eee;
+    color: #999;
+    border: 1px solid #ccc;
+    text-decoration: line-through;
+}
+
+/* 애니메이션 정의 */
+@keyframes pulse-bg {
+  0% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(211, 47, 47, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); }
+}
+
+@keyframes pulse-dot {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+/* 지도 위 위험 구역 애니메이션 (SVG Class) */
+.danger-zone-path {
+    animation: pulse-path 2s infinite alternate;
+}
+@keyframes pulse-path {
+    from { fill-opacity: 0.5; }
+    to { fill-opacity: 0.7; }
+}
